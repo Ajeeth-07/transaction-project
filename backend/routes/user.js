@@ -105,7 +105,36 @@ router.put("/update", authMiddleware, async (req, res) => {
     await User.updateOne({_id : req.userId}, {$set: data});
 
     res.status(200).json({msg : "Updated successfully"});
+});
 
+router.get("/bulk", async(req, res) => {
+    try{
+        const filter = req.query.filter || "";
+
+    const users = await User.find({
+        $or : [{
+            firstName : {
+                "$regex" : filter
+            }
+        }, {
+            lastName : {
+                "$regex" : filter
+            }
+        }]
+    })
+
+    res.json({
+        user: users.map(user => ({
+            username : user.username,
+            firstName : user.firstName,
+            lastName : user.lastName,
+            _id : user._id
+        }))
+    })
+    }catch(err){
+        console.error("Error : " + err);
+        res.status(404).json({msg : "internal server error"});
+    }
     
 })
 
