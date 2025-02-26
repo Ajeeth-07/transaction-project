@@ -5,6 +5,7 @@ const {User} = require("../db");
 const { JWT_SECRET } = require("../config");
 const bcrypt = require("bcrypt");
 const zod = require("zod");
+const { authMiddleware } = require("../middleware");
 //using ZOD validation
 
 
@@ -82,6 +83,29 @@ router.post("/signin", async(req, res) => {
         console.error("Error signing in "+ err);
         res.status(404).json({msg: "Internal Server error"});
     }
+    
+});
+
+const updatedBody = zod.object({
+    password : zod.string().optional(),
+    firstName : zod.string().optional(),
+    lastName : zod.string().optional()
+})
+
+router.put("/update", authMiddleware, async (req, res) => {
+    const {success, data} = updatedBody.safeParse(req.body);
+
+    if(!success) return res.status(411).json({msg:"Invalid inputs"});
+
+    //if user provides password hash it
+    if(data.password){
+        data.password = await bcrypt.hash(data.password, 10);
+    }
+
+    await User.updateOne({_id : req.userId}, {$set: data});
+
+    res.status(200).json({msg : "Updated successfully"});
+
     
 })
 
