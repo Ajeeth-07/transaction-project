@@ -1,9 +1,9 @@
 # ** Payments App**  
-A simple **Paytm-like** application built using **Node.js, Express, MongoDB**, and soon-to-be **React + TailwindCSS** for the frontend.
+A simple **Payment** application built using **Node.js, Express, MongoDB**, and soon-to-be **React + TailwindCSS** for the frontend.
 
-![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/paytm-clone)
-![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/paytm-clone)
-![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/Ajeeth-07/transaction-project)
+![GitHub last commit](https://img.shields.io/github/last-commit/Ajeeth-07/transaction-project)
+
 
 ---
 
@@ -15,8 +15,8 @@ A simple **Paytm-like** application built using **Node.js, Express, MongoDB**, a
 ✅ User profile update  
 ✅ Fetch user list (bulk search)  
 ✅ Check account balance  
-🔜 Transfer amount between users (**Coming Soon**)  
-🔜 Full **React frontend** with **TailwindCSS** (**Coming Soon**)  
+🔜 Transfer amount between users  
+🔜 Full **React frontend** with **TailwindCSS** 
 
 ---
 
@@ -31,36 +31,22 @@ A simple **Paytm-like** application built using **Node.js, Express, MongoDB**, a
 ### **Frontend **:
 - ⚛ **React.js** – UI  
 - 🎨 **TailwindCSS** – Styling  
-- 🔄 **Redux Toolkit / Context API** – State management  
+- 🔄 **Recoil / Context API** – State management  
 - 🔗 **Axios** – API requests  
 
 ---
 
+
 ## ⚡ **Installation & Setup**
+
 ### **1️⃣ Clone the repository**
 ```bash
 git clone https://github.com/yourusername/paytm-clone.git
 cd paytm-clone
-
-2️⃣ Install dependencies
-sh
-Copy
-Edit
 npm install
-3️⃣ Setup environment variables
-Create a .env file in the root directory and add:
-
-env
-Copy
-Edit
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
-4️⃣ Start the server
-sh
-Copy
-Edit
 node src/index.js
-The server will run at http://localhost:3000 🚀
 ```
 | Endpoint              | Method | Description                         |
 |----------------------|--------|-------------------------------------|
@@ -74,4 +60,3 @@ The server will run at http://localhost:3000 🚀
 |-------------|--------|------------------------------------------------|
 | `/balance`  | `GET`  | Fetch user account balance (**Auth required**) |
 | `/transfer` | `POST` | Transfer money between users (**Coming Soon**) |
-```
