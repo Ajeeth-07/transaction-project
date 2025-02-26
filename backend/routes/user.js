@@ -4,14 +4,26 @@ const router = express.Router();
 const {User} = require("../db");
 const { JWT_SECRET } = require("../config");
 const bcrypt = require("bcrypt");
+const zod = require("zod");
+//using ZOD validation
+
+
+const signupBody = zod.object({
+    username : zod.string().email(),
+    firstName : zod.string(),
+    lastName : zod.string(),
+    password : zod.string()
+})
 
 router.post("/signup", async(req, res) => {
     try{
-        const {username, firstName, lastName, password} = req.body;
+        const {success} = signupBody.safeParse(req.body);
 
-    if(!(username && password && firstName)){
-        return res.status(403).json({msg : "required field names missing"});
+    if(!success){
+        return res.status(403).json({msg : "required field names missing / invalid inputs"});
     }
+
+    const {username, firstName, lastName, password} = req.body;
 
     const existingUser = await User.findOne({username});
 
@@ -19,14 +31,14 @@ router.post("/signup", async(req, res) => {
 
     const hashedPass = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const newUser = await User.create({
         username,
         firstName,
         lastName,
         password : hashedPass
     });
 
-    const token = jwt.sign({username, id:User._id}, JWT_SECRET);
+    const token = jwt.sign({username : newUser.username, id:newUser._id}, JWT_SECRET);
 
     res.status(200).json({msg : "User created successfully", token})
     }catch(error){
@@ -37,13 +49,20 @@ router.post("/signup", async(req, res) => {
 
 })
 
+const signinBody = zod.object({
+    username : zod.string().email(),
+    password : zod.string()
+})
+
 router.post("/signin", async(req, res) => {
     try{
-        const {username, password} = req.body;
+        const {success} = signinBody.safeParse(req.body);
 
-    if(!(username && password)){
-        res.status(500).json({msg : "username and password required"});
+    if(!success){
+        res.status(500).json({msg : "username and password required / invalid inputs"});
     }
+
+    const {username, password} = req.body;
 
     //finding username
     const user = await User.findOne({username});
