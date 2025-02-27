@@ -1,9 +1,20 @@
-
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { Signin } from "./files/Signin";
+import  Signup  from "./files/Signup";
+import { Dashboard } from "./files/Dashboard";
+import { Send } from "./files/Send";
 function App() {
 
   return (
-    <div className="bg-amber-500">
-        Hello world
+    <div>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/signin" element={<Signin/>}/>
+      <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/send" element={<Send/>}/>
+    </Routes>
+    </BrowserRouter>
     </div>
   )
 }
