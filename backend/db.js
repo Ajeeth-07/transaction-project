@@ -48,6 +48,15 @@ const accountSchema = new mongoose.Schema({
   },
 });
 
+const transactionSchema = new mongoose.Schema({
+  senderId : {type:mongoose.Schema.Types.ObjectId, ref:"User", required:true},
+  receiverId : {type:mongoose.Schema.Types.ObjectId, ref:"User", required:true},
+  amount: { type:Number, required:true},
+  statuss: {type:String, enum:["success", "failed"], default:"success"},
+  timestamp: {type:Date, default:Date.now()}
+})
+
 const User = mongoose.model("User", userSchema);
 const Account = mongoose.model("Account", accountSchema);
-module.exports = { User, Account };
+const Transaction = mongoose.model("Transaction", transactionSchema);
+module.exports = { User, Account, Transaction };

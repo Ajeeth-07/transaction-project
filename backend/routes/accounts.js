@@ -1,7 +1,7 @@
 const express = require("express");
 const { authMiddleware } = require("../middleware");
 const mongoose = require("mongoose");
-const {Account} = require("../db");
+const {Account, Transaction} = require("../db");
 
 const router = express.Router();
 
@@ -50,6 +50,16 @@ router.post("/transfer", authMiddleware, async(req, res) => {
     await Account.updateOne({userId:req.userId}, {$inc:{balance:-amount}}).session(session);
     await Account.updateOne({userId:to}, {$inc:{balance:amount}}).session(session);
 
+    //save transaction
+    const transaction = new Transaction({
+      senderId : req.userId,
+      receiverId : to,
+      amount,
+      statuss : "success"
+    });
+
+    await transaction.save({session})
+
     await session.commitTransaction();
     res.status(200).json({msg:"Transfer Successful"});
     }catch(err){
@@ -57,6 +67,22 @@ router.post("/transfer", authMiddleware, async(req, res) => {
         return res.status(500).json({msg:"Internal Server Error"});
     }
     
+});
+
+router.get("/history", authMiddleware, async(req, res) => {
+
+  try{
+    const history = await Transaction.find({
+    $or : [{senderId: req.userId}, {receiverId : req.userId}] //query to get money sent and recieved by user
+  }).sort({timestamp: -1}); //this sort timestamp -1 returns transactions in descending order most recent transaction at top
+
+  res.status(200).json({history});
+  }catch(err){
+    console.error("Error: " + err);
+    res.status(500).json({msg : "Internal server error"});
+  }
+
+  
 })
 
 

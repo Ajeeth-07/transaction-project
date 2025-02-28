@@ -65,7 +65,7 @@ router.post("/signin", async(req, res) => {
         const {success} = signinBody.safeParse(req.body);
 
     if(!success){
-        res.status(500).json({msg : "username and password required / invalid inputs"});
+        return res.status(500).json({msg : "username and password required / invalid inputs"});
     }
 
     const {username, password} = req.body;

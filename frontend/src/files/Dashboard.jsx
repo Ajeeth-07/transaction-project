@@ -26,7 +26,7 @@ export const Dashboard = () => {
     }
 
     getBalance();
-  }, [balance]);
+  }, []);
 
   return (
     <div>
