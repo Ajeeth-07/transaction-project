@@ -112,7 +112,7 @@ router.put("/update", authMiddleware, async (req, res) => {
     res.status(200).json({msg : "Updated successfully"});
 });
 
-router.get("/bulk", async(req, res) => {
+router.get("/bulk", authMiddleware, async(req, res) => {
     try{
         const filter = req.query.filter || "";
 

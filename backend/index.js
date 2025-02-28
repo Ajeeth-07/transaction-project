@@ -5,7 +5,7 @@ const cors = require("cors");
 const JWT_SECRET = require("./config.js")
 
 
-app.use(cors());
+app.use(cors({origin : "http://localhost:5173"}));
 app.use(express.json());
 
 
