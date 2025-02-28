@@ -12,7 +12,7 @@ router.get("/balance", authMiddleware, async (req, res) => {
       userId: req.userId,
     });
     res.status(200).json({
-      balance: account.balance,
+      balance: account?.balance || 0
     });
   } catch (err) {
     console.error("Error: " + err);

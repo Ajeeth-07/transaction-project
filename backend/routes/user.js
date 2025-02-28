@@ -83,7 +83,11 @@ router.post("/signin", async(req, res) => {
 
     const token = jwt.sign({id:user._id, username}, JWT_SECRET);
 
-    res.status(200).json({msg : "Signin Successfull", token});
+    //querying account for balance
+    const account = await Account.findOne({userId : user._id});
+    const balance = account ? account.balance : 0
+
+    res.status(200).json({msg : "Signin Successfull", token, balance});
     }catch(err){
         console.error("Error signing in "+ err);
         res.status(404).json({msg: "Internal Server error"});
@@ -115,18 +119,23 @@ router.put("/update", authMiddleware, async (req, res) => {
 router.get("/bulk", authMiddleware, async(req, res) => {
     try{
         const filter = req.query.filter || "";
-
+        const currentUserId = req.userId;
     const users = await User.find({
+        _id : {$ne : currentUserId}, //excluding current user id
         $or : [{
             firstName : {
-                "$regex" : filter
+                "$regex" : filter,
+                "$options" : "i"
             }
         }, {
             lastName : {
-                "$regex" : filter
+                "$regex" : filter,
+                "$options" : "i"
             }
         }]
     })
+
+    
 
     res.json({
         user: users.map(user => ({

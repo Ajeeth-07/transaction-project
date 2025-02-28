@@ -9,5 +9,5 @@ export const Button = ({label, onClick}) => {
           {label}
         </button>
       </div>
-    );
+    );  
 }
