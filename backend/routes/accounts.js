@@ -74,7 +74,7 @@ router.get("/history", authMiddleware, async(req, res) => {
   try{
     const history = await Transaction.find({
     $or : [{senderId: req.userId}, {receiverId : req.userId}] //query to get money sent and recieved by user
-  }).sort({timestamp: -1}); //this sort timestamp -1 returns transactions in descending order most recent transaction at top
+  }).sort({timestamp: -1}); //this sort.timestamp -1 returns transactions in descending order most recent transaction at top
 
   res.status(200).json({history});
   }catch(err){

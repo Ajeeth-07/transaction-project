@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "./Button";
 
 export const Appbar = () => {
   const navigate = useNavigate();
@@ -9,38 +10,28 @@ export const Appbar = () => {
   };
 
   return (
-    <div className="shadow h-14 flex justify-between items-center px-4">
-      <div>Transaction Project</div>
-      <div className="flex items-center">
-        <div className="mr-4">Hello</div>
-        <div className="rounded-full h-12 w-12 bg-slate-200 flex items-center justify-center text-xl">
-          U
+    <header className="bg-gradient-to-r from-blue-400 to-indigo-400 shadow-md py-4 px-6 flex items-center justify-between">
+      <div className="text-white font-bold text-xl">Transaction Project</div>
+      <div className="flex items-center space-x-4">
+        <div className="text-white font-medium">Hello, User!</div>
+        <Button
+          label="History"
+          onClick={() => navigate("/history")}
+          extraClasses="bg-white text-blue-500 hover:bg-gray-200 px-3 py-1 rounded"
+        />
+        <div className="relative">
+          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-lg text-blue-600 font-bold">
+            U
+          </div>
+          <span className="absolute bottom-0 right-0 block w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
         </div>
-        <div className="items-center pt-1 ml-2">
-          <button
-            type="button"
-            className="text-gray-900 bg-white hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800 flex-row-reverse"
-            onClick={handleLogout}
-          >
-            <svg
-              className="w-5 h-5 ml-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-            Logout
-          </button>
-        </div>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 px-3 py-1 rounded transition duration-150"
+        >
+          Logout
+        </button>
       </div>
-    </div>
+    </header>
   );
 };
